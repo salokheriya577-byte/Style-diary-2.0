@@ -153,47 +153,59 @@ export default function App() {
   }, []);
 
   // Hydrate Data... for now keeping local data logic but wrapped in user check
-  const varietyScore = 65; // Mocking score for clean UI rendering during testing
-
-  if (loading || showSplash) return <SplashScreen />;
-  if (!user) return <AuthScreen onSignedUp={() => {}} />;
+  const varietyScore = 65; 
 
   return (
-    <div className="flex flex-col min-h-screen max-w-md mx-auto bg-[#0f0c29] shadow-2xl relative pb-20 overflow-hidden font-sans text-slate-100">
-      <Header data={data} setData={setData} score={varietyScore} user={user} localWeather={localWeather} />
-      
-      <main className="flex-1 overflow-y-auto px-4 py-6">
-        <AnimatePresence mode="wait">
-          {activeTab === 'journal' && <JournalView key="journal" data={data} setData={setData} />}
-          {activeTab === 'wardrobe' && <WardrobeView key="wardrobe" data={data} setData={setData} onEditOutfit={handleEditOutfitRequest} />}
-          {activeTab === 'studio' && (
-            <StudioView 
-              key="studio" 
-              data={data} 
-              setData={setData} 
-              initialOutfit={initialOutfitToEdit} 
-              onClearInitial={() => setInitialOutfitToEdit(null)} 
-            />
-          )}
-          {activeTab === 'alchemy' && (
-            <DrawingBoard 
-              key="alchemy" 
-              userItems={data.items} 
-              onAddItem={(item) => {
-                setData(prev => ({
-                  ...prev,
-                  items: [{ ...item, id: Math.random().toString(36).substr(2, 9) }, ...prev.items]
-                }));
-                setActiveTab('wardrobe');
-              }}
-            />
-          )}
-          {activeTab === 'stats' && <StatsView data={data} setData={setData} score={varietyScore} user={user} onEditOutfit={handleEditOutfitRequest} />}
-          {activeTab === 'trends' && <TrendsView data={data} setData={setData} />}
-        </AnimatePresence>
-      </main>
+    <div className="flex flex-col min-h-screen text-slate-100 font-sans selection:bg-fuchsia-500/30">
+      <AnimatePresence mode="wait">
+        {(loading || showSplash) ? (
+          <SplashScreen key="splash" />
+        ) : !user ? (
+          <AuthScreen key="auth" onSignedUp={() => {}} />
+        ) : (
+          <motion.div 
+            key="app-main"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex flex-col min-h-screen max-w-md mx-auto bg-[#0f0c29] shadow-2xl relative pb-20 overflow-hidden w-full"
+          >
+            <Header data={data} setData={setData} score={varietyScore} user={user} localWeather={localWeather} />
+            
+            <main className="flex-1 overflow-y-auto px-4 py-6">
+              <AnimatePresence mode="wait">
+                {activeTab === 'journal' && <JournalView key="journal" data={data} setData={setData} />}
+                {activeTab === 'wardrobe' && <WardrobeView key="wardrobe" data={data} setData={setData} onEditOutfit={handleEditOutfitRequest} />}
+                {activeTab === 'studio' && (
+                  <StudioView 
+                    key="studio" 
+                    data={data} 
+                    setData={setData} 
+                    initialOutfit={initialOutfitToEdit} 
+                    onClearInitial={() => setInitialOutfitToEdit(null)} 
+                  />
+                )}
+                {activeTab === 'alchemy' && (
+                  <DrawingBoard 
+                    key="alchemy" 
+                    userItems={data.items} 
+                    onAddItem={(item) => {
+                      setData(prev => ({
+                        ...prev,
+                        items: [{ ...item, id: Math.random().toString(36).substr(2, 9) }, ...prev.items]
+                      }));
+                      setActiveTab('wardrobe');
+                    }}
+                  />
+                )}
+                {activeTab === 'stats' && <StatsView data={data} setData={setData} score={varietyScore} user={user} onEditOutfit={handleEditOutfitRequest} />}
+                {activeTab === 'trends' && <TrendsView data={data} setData={setData} />}
+              </AnimatePresence>
+            </main>
 
-      <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
+            <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

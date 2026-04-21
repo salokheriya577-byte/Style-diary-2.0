@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 import { BookHeart } from 'lucide-react';
 import { signInWithGoogle } from '../lib/firebase';
 
-export function AuthScreen({ onSignedUp }: { onSignedUp: () => void }) {
+export function AuthScreen({ onSignedUp }: { onSignedUp: () => void; key?: string }) {
   const handleLogin = async () => {
     try {
       await signInWithGoogle();
@@ -45,8 +45,8 @@ export function AuthScreen({ onSignedUp }: { onSignedUp: () => void }) {
         className="text-center mb-12"
       >
         <p className="font-serif italic text-white/80 mb-2">Welcome to</p>
-        <h1 className="text-4xl font-serif font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 mb-8 drop-shadow-2xl uppercase tracking-widest text-center leading-[1.1]">
-          Muse's<br/>Crucible
+        <h1 className="text-4xl font-serif font-black text-white/90 mb-8 drop-shadow-2xl uppercase tracking-widest text-center leading-[1.1]">
+          Style<br/>Diary
         </h1>
         <p className="text-[10px] font-black tracking-[0.4em] text-white/50 uppercase">
           Curate &bull; Remember &bull; Manifest

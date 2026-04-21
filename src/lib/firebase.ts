@@ -32,7 +32,8 @@ export const signInWithGoogle = async () => {
 
 export const logout = () => signOut(auth);
 
-// Test connection on boot
+// Optional: Test connection on boot... removed to ensure stable boot
+/*
 (async function testConnection() {
   try {
     await getDocFromServer(doc(db, 'test', 'connection'));
@@ -42,3 +43,4 @@ export const logout = () => signOut(auth);
     }
   }
 })();
+*/
