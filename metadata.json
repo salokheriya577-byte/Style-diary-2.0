@@ -1,0 +1,8 @@
+{
+  "name": "Style Diary",
+  "description": "Your digital wardrobe archive and personal fashion oracle. Curate your identity through threads of memory and style.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}
